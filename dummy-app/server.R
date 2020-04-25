@@ -1,6 +1,19 @@
 # server
 
 server <- function(input, output) {
+  # ==================================================== #
+  # Message to introduce the dummy version of the app ####
+  # ==================================================== #
+  showModal(modalDialog(
+    title = "Welcome to Hello(NotSo)Fresh",
+    HTML(paste0("<p>This is a dummy version of the app. We will show the real version in the live demo, of which we will ",
+                "put a video on line on <a href='https://github.com/chronoclast/hellonotsofresh-earthxhack-2020' target='_blank'>",
+                "our github page</a> as soon as it is available. The real version will use sensors that ",
+                "are connected to supermarket products and will send the app data about which products are already in store ",
+                "and better be sold quicly.</p>",
+                "<p>Here you can simulate what happens when there is a change in products we want to promote by clicking on the",
+                " <i class='fa fa-refresh' style='padding:8px;background-color:#ffc107;color:white;'></i> refresh button in the upper right corner of the screen.</p>"))))
+  
   # ============================ #
   # Refresh button for testing ####
   # ============================= #
@@ -21,8 +34,8 @@ server <- function(input, output) {
     values$n <- n
     
     # And arrange the layout also a bit more random, why not 
-    values$recipeImageSkew = sample(-10:-1, 1)
-    values$recipeIngredientsSkew = sample(4:10, 1)
+    values$recipeImageSkew = sample(-15:-1, 1)
+    values$recipeIngredientsSkew = sample(3:15, 1)
     values$recipeImageMargin = sample(70:100, 1)
   })
   
@@ -30,7 +43,8 @@ server <- function(input, output) {
   # Show the recipe name ####
   # ======================= #
   output$recipe_name <- renderUI({
-    HTML(paste0('<b style = "font-size: 72px; color: white">',tools::toTitleCase(response_df$title[values$n]),'</b>'))
+    HTML(paste0('<div style="height:200px"><b style = "font-size: 72px; color: white;">',
+                tools::toTitleCase(response_df$title[values$n]),'</b></div>'))
   })
   
   # ========================== #
@@ -64,10 +78,10 @@ server <- function(input, output) {
                                      ' - Now for €',ingredients$price,'!</b>
                                        </div>'), collapse="")
     # The html for the ingredients list
-    HTML(paste0('<div class = "paper" style="font-size: 200%; 
+    HTML(paste0('<div class = "paper" style="font-size: 100%; 
                                              color:#636363; 
                                              transform: rotate(',values$recipeIngredientsSkew,'deg); 
-                                             margin-top:60px;">
+                                             margin-top:16px;">
                  <p>Why not enjoy some delicious ',tools::toTitleCase(response_df$title[values$n]),
                   ' tonight? Here is what you\'ll need to prepare this dish:</p>',
                   ingredients_html,

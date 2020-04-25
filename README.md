@@ -6,7 +6,15 @@ _A project by Emelie Hofland and Jaime González-Arintero for the [EarthxHack](h
 
 ## Introduction
 
-[PLACEHOLDER]
+According to [recent studies](https://www.nrdc.org/sites/default/files/wasted-food-IP.pdf), supermarkets throw away 43 billion pounds of food every year and this is considering the U.S. only. Grocery stores cause [10% of the U.S. foodwaste](https://www.dumpsters.com/blog/grocery-store-food-waste-statistics), making grocery store food waste into a massive problem. 
+
+Hello(NotSo)Fresh is an initiative to avoid excessive grocery store food waste by promoting products that are still good but need to be sold rather sooner than later. To do this, it uses sensor data to keep track of how long food products have been in store. This way, we can make a ranking of products that need to sell and products that are in deal and automatically generate delicious recipes with those product to show to the customers.
+
+Another advantage is that people will get inspired to try out new dishes and ingredients, therefore also contributing to a more varied diet. 
+
+Here is a mock up of the Hello(NotSo)Fresh application:
+
+![image](assets/first-draft-app.jpeg)
 
 ## Live demo
 
@@ -35,6 +43,30 @@ A set of sensors have been installed in order to track the stock, and to detect 
 #### Setup
 
 First of all, create a free account in [Adafruit IO](https://io.adafruit.com).
+
+### Shiny application
+
+The web application is build with R shiny. To showcase the app, we have uploaded a dummy version to shinyapps.io, with which the function of the app can be simulated.
+
+The dummy app can be visited via [think link](https://emelieh21.shinyapps.io/dummy-app/) and the source code can be found in the [dummy-app](dummy-app).
+
+![image](assets/dummy-app.png)
+
+The app is hosted on [shinyapps.io](shinyapps.io). To deploy the app, all that was needed was an account on shinyapps.io and running the following code:
+
+```R
+# deploy app
+library(rsconnect)
+
+# https://shiny.rstudio.com/articles/shinyapps.html
+# You can get the needed info from https://www.shinyapps.io/admin/#/tokens
+rsconnect::setAccountInfo(name='<USER_NAME>',
+                          token='<TOKEN>',
+                          secret='<SECRET>')
+
+setwd('/path/to/dummy-app/')
+deployApp()
+```
 
 ## To do
 
