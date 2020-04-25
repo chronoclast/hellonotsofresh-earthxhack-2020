@@ -58,6 +58,8 @@ The dummy app can be visited via [think link](https://emelieh21.shinyapps.io/dum
 
 The app is hosted on [shinyapps.io](shinyapps.io). To deploy the app, all that was needed was an account on shinyapps.io and running the following code:
 
+*deploy_app.R*
+
 ```R
 # deploy app
 library(rsconnect)
