@@ -9,7 +9,12 @@ demo <- readRDS("test.rds")
 response_df <- demo[[1]]
 ingredients <- demo[[3]]
 
+# Note to self: remove recipe Chicken Chili in a Bread Bowl with Fruit Salad from the test data - it has the ugliest recipe
+
 response_df <- response_df[order(response_df$likes, decreasing = TRUE),]
 n <- sample(c(1:nrow(response_df)), size = 1)
-values <- reactiveValues(n = n)
+values <- reactiveValues(n = n,
+                         recipeImageSkew = -6,
+                         recipeIngredientsSkew = 4,
+                         recipeImageMargin = 80)
 

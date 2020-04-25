@@ -14,9 +14,15 @@ server <- function(input, output) {
                      type = sample(c("warning","error","default","message"), 1), 
                      closeButton = FALSE)
     Sys.sleep(3)
+    
     # Pick a new random recipe...
     n <- sample(c(1:nrow(response_df)), size = 1)
     values$n <- n
+    
+    # And arrange the layout also a bit more random, why not 
+    values$recipeImageSkew = sample(-10:-1, 1)
+    values$recipeIngredientsSkew = sample(4:10, 1)
+    values$recipeImageMargin = sample(70:100, 1)
   })
   
   # ======================= #
@@ -33,7 +39,8 @@ server <- function(input, output) {
     # Printing for testing
     message(response_df$image[values$n])
     # Frame class is to add a frame around the (sometimes ugly) picture - see css file in the www folder
-    HTML(paste0('<div class="frame" style = "transform: rotate(-6deg); margin-left:20px;"><img src="',response_df$image[values$n],'"/></div>'))
+    HTML(paste0('<div class="frame" style = "transform: rotate(',values$recipeImageSkew,
+                'deg); margin-left:',values$recipeImageMargin,'px;"><img src="',response_df$image[values$n],'"/></div>'))
   })
   
   # ================================ #
@@ -58,7 +65,7 @@ server <- function(input, output) {
     # The html for the ingredients list
     HTML(paste0('<div class = "paper" style="font-size: 200%; 
                                              color:#636363; 
-                                             transform: rotate(4deg); 
+                                             transform: rotate(',values$recipeIngredientsSkew,'deg); 
                                              margin-top:60px;">
                  <p>Why not enjoy some delicious ',tools::toTitleCase(response_df$title[values$n]),
                       ' tonight? Here is what you\'ll need to prepare this dish:</p>',
