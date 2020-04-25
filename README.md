@@ -26,7 +26,7 @@ Here is a mock up of the Hello(NotSo)Fresh application:
 
 Initial idea:
 
-![image](assets/brainstorm.jpeg)
+<img src="assets/brainstorm.jpeg" alt="drawing" width="250"/>
 
 ## Technical setup
 
