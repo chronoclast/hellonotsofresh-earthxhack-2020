@@ -3406,10 +3406,11 @@ input[type="button"].btn-block {
   width: 100%;
 }
 
+/*
 .fade {
   -webkit-transition: opacity 0.15s linear;
   transition: opacity 0.15s linear;
-}
+} 
 
 @media (prefers-reduced-motion: reduce) {
   .fade {
@@ -3420,7 +3421,7 @@ input[type="button"].btn-block {
 
 .fade:not(.show) {
   opacity: 0;
-}
+} */
 
 .collapse:not(.show) {
   display: none;
@@ -6277,7 +6278,7 @@ a.close.disabled {
 .toast-body {
   padding: 0.75rem;
 }
-
+/*
 .modal-open {
   overflow: hidden;
 }
@@ -6325,7 +6326,7 @@ a.close.disabled {
 .modal.show .modal-dialog {
   -webkit-transform: none;
           transform: none;
-}
+} 
 
 .modal.modal-static .modal-dialog {
   -webkit-transform: scale(1.02);
@@ -6522,7 +6523,7 @@ a.close.disabled {
   .modal-xl {
     max-width: 1140px;
   }
-}
+} */
 
 .tooltip {
   position: absolute;
@@ -11121,9 +11122,10 @@ select.form-control {
   font-family: "Cabin Sketch", cursive;
 }
 
+/*
 .modal-content {
   border-radius: 15px 5px 5px 25px/5px 25px 25px 5px;
-}
+} */
 
 .popover {
   padding: 0;

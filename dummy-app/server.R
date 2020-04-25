@@ -12,7 +12,8 @@ server <- function(input, output) {
                 "are connected to supermarket products and will send the app data about which products are already in store ",
                 "and better be sold quicly.</p>",
                 "<p>Here you can simulate what happens when there is a change in products we want to promote by clicking on the",
-                " <i class='fa fa-refresh' style='padding:8px;background-color:#ffc107;color:white;'></i> refresh button in the upper right corner of the screen.</p>"))))
+                " <i class='fa fa-refresh' style='padding:8px;background-color:#ffc107;color:white;'>",
+                "</i> refresh button in the upper right corner of the screen.</p>"))))
   
   # ============================ #
   # Refresh button for testing ####
