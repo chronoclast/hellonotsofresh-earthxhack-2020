@@ -24,6 +24,10 @@ Here is a mock up of the Hello(NotSo)Fresh application:
 
 [PLACEHOLDER]
 
+Initial idea:
+
+![image](assets/brainstorm.jpeg)
+
 ## Technical setup
 
 ### Supermarket sensors
