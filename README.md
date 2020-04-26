@@ -27,7 +27,9 @@ Here is a mock up of the Hello(NotSo)Fresh application:
 
 ## Solution architecture
 
-[PLACEHOLDER]
+This chart shows the technical setup of our project.
+
+![image](assets/solution-architecture.png)
 
 ## Technical setup
 
@@ -80,7 +82,7 @@ Proceed to open the `supermarket-sensors` Arduino project that can be found in t
 The web application is build with R shiny. We have used the following resources inside the app:
 
 * 'Sketchy' bootstrap.css from [bootswatch](https://bootswatch.com/sketchy/)
-* Background picture from [Pixabay](https://pixabay.com/photos/food-kitchen-cook-tomatoes-dish-1932466/) (free for commercial use)
+* Background picture by [Daria Yakovleva](https://pixabay.com/users/Daria-Yakovleva-3938704/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=1932466) from [Pixabay](https://pixabay.com/photos/food-kitchen-cook-tomatoes-dish-1932466/) (free for commercial use)
 * [Spoonacular API](https://spoonacular.com/food-api) for recipes, more specifically, we used the [Search-Recipes-By-Ingredients](https://spoonacular.com/food-api/docs#Search-Recipes-by-Ingredients) endpoints
 * The [Adafruit IO](https://io.adafruit.com) API to query the sensor data (see technical setup for supermarkets sensor above)
 
@@ -125,7 +127,7 @@ This version of the app can be visited **[here](https://emelieh21.shinyapps.io/h
 
 ## License
 
-Copyright (C) 2020 Emelie Hofland <emelie_hofland@hotmail.com>, Jaime González-Arintero <a.lie.called.life@gmail.com>
+Copyright (C) 2020 Emelie Hofland, Jaime González-Arintero <a.lie.called.life@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
