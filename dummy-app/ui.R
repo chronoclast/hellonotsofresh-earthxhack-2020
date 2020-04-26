@@ -8,7 +8,7 @@ ui <- fluidPage(theme = "bootstrap-sketchy.css",
                 tags$style("html {font-size:120%; !important;}"),
                 tags$style(".modal-dialog {color: black; !important;}"),
                 tags$style("#refresh {background-color: #ffc107; color: white; !important}"),
-                # Free picture from https://pixabay.com/images/search/kitchen/
+                # Picture from https://pixabay.com/photos/food-kitchen-cook-tomatoes-dish-1932466/
                 setBackgroundImage(src = 'food-1932466_1920.jpg'),
                 # add tiny refresh button for when shit hits the fan
                 absolutePanel(top = 20, right = 25,

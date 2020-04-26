@@ -11,7 +11,7 @@ ui <- fluidPage(theme = "bootstrap-sketchy.css",
                 tags$style("#product_status {background-color: #ffc107; color: #555; !important}"),
                 tags$style("#show_table {background-color: #ffc107; color: white; !important}"),
                 
-                # Free picture from https://pixabay.com/images/search/kitchen/
+                # Picture from https://pixabay.com/photos/food-kitchen-cook-tomatoes-dish-1932466/
                 setBackgroundImage(src = 'food-1932466_1920.jpg'),
                 
                 # Add tiny button to show the updating products table

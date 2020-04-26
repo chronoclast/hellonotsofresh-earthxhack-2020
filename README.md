@@ -14,7 +14,7 @@ Another advantage is that people will get inspired to try out new dishes and ing
 
 Here is a mock up of the Hello(NotSo)Fresh application:
 
-![image](assets/first-draft-app.jpeg)
+![image](assets/product-of-the-day.jpeg)
 
 ## Live demo
 
@@ -62,11 +62,22 @@ The measurements are sent to the [Adafruit IO](https://io.adafruit.com) platform
 
 First of all, create a free account in [Adafruit IO](https://io.adafruit.com).
 
-### Shiny application
+## Shiny application
 
-The web application is build with R shiny. To showcase the app, we have uploaded a dummy version to shinyapps.io, with which the function of the app can be simulated.
+The web application is build with R shiny. We have used the following resources inside the app:
 
-The dummy app can be visited via [think link](https://emelieh21.shinyapps.io/dummy-app/) and the source code can be found in the [dummy-app](dummy-app).
+* 'Sketchy' bootstrap.css from [bootswatch](https://bootswatch.com/sketchy/)
+* Background picture from [Pixabay](https://pixabay.com/photos/food-kitchen-cook-tomatoes-dish-1932466/) (free for commercial use)
+* [Spoonacular API](https://spoonacular.com/food-api) for recipes, more specifically, we used the [Search-Recipes-By-Ingredients](https://spoonacular.com/food-api/docs#Search-Recipes-by-Ingredients) endpoints
+* The [Adafruit IO](https://io.adafruit.com) API to query the sensor data (see technical setup for supermarkets sensor above)
+
+### Links to the app
+
+#### Dummy version
+
+To showcase the app, we have uploaded a dummy version to shinyapps.io, with which the function of the app can be simulated.
+
+The dummy app can be visited **[here](https://emelieh21.shinyapps.io/dummy-app/)** and the source code can be found in the [dummy-app](dummy-app) folder.
 
 ![image](assets/dummy-app.png)
 
@@ -88,9 +99,16 @@ setwd('/path/to/dummy-app/')
 deployApp()
 ```
 
-## To do
+#### Live version
 
-* Everything else
+For the live demo we will run the app **locally** in our flat, since it only makes sense to run the 'real-live' version when we are actually moving groceries around and have the sensors connected.
+
+However, to showcase the full functionality of the actual application, we deployed it to shinyapps.io as well (see the [app](app) folder for source code), in **'demo' mode**. This means the sensor inputs are **simulated** and the recipe API is not called, instead a **recipe is randomly chosen** from a small selection.
+
+This version of the app can be visited **[here](https://emelieh21.shinyapps.io/hello-not-so-fresh-demo-mode/)**. This link allows to see how the app functions with the **product table** that updates according to how long products are in store (products being removed or replaced is being simulated in the background) and the change it triggers in the displayed recipe.
+
+![image](assets/product-table.jpeg)
+
 
 ## License
 

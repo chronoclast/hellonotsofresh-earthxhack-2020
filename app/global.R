@@ -19,8 +19,8 @@ products$sensor_connected <- ifelse(products$product %in% c('tomatoes','apples',
 n <- sample(c(1:nrow(response_df)), size = 1)
 
 # Variables to indicate if we should run demo mode
-demo_mode_adafruit = FALSE
-demo_mode_spoonacularAPI = FALSE
+demo_mode_adafruit = TRUE
+demo_mode_spoonacularAPI = TRUE
 
 if (demo_mode_adafruit == FALSE | demo_mode_spoonacularAPI == FALSE) {
   # Requirements for the app to run with real data:
