@@ -1,4 +1,9 @@
-# Hello(NotSo)Fresh
+<p style="transform: rotate(-13deg);" align="center">
+	<img src="assets/logo-lowres.png" alt="drawing" width="160"/>
+</p>
+<h1 align="center">
+  Hello(NotSo)Fresh
+</h1>
 
 ### By Team _"TexasTopf"_
 
@@ -8,7 +13,7 @@ _A project by Emelie Hofland and Jaime González-Arintero for the [EarthxHack](h
 
 According to [recent studies](https://www.nrdc.org/sites/default/files/wasted-food-IP.pdf), supermarkets throw away 43 billion pounds of food every year and this is considering the U.S. alone. Grocery stores cause [10% of the U.S. foodwaste](https://www.dumpsters.com/blog/grocery-store-food-waste-statistics), making grocery store food waste into a massive problem. 
 
-Hello(NotSo)Fresh is an initiative to avoid excessive grocery store food waste by promoting products that are still good but need to be sold rather sooner than later. To do this, it uses **sensor data** to keep track of how long food products have been in store. This way, we can make a **ranking of products that need to sell** and products that are in deal and automatically **generate delicious recipes** with those product to show to the customers.
+_Hello(NotSo)Fresh_ is an initiative to avoid excessive grocery store food waste by promoting products that are still good but need to be sold rather sooner than later. To do this, it uses **sensor data** to keep track of how long food products have been in store. This way, we can make a **ranking of products that need to sell** and products that are in deal and automatically **generate delicious recipes** with those product to show to the customers.
 
 Another advantage is that people will get inspired to try out new dishes and ingredients, therefore also contributing to a more varied diet. 
 
