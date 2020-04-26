@@ -1,4 +1,4 @@
-<p style="transform: rotate(-13deg);" align="center">
+<p align="center">
 	<img src="assets/logo-lowres.png" alt="drawing" width="160"/>
 </p>
 <h1 align="center">
@@ -6,8 +6,8 @@
 </h1>
 
 ### By Team _"TexasTopf"_
-
-_A project by Emelie Hofland and Jaime González-Arintero for the [EarthxHack](https://earthxhack.weareasterisk.com) online event, on April 24-26, 2020._
+ 
+_Food waste? Nein danke! A project by Emelie Hofland and Jaime González-Arintero for the [EarthxHack](https://earthxhack.weareasterisk.com) online event, on April 24-26, 2020._
 
 ## Introduction
 
@@ -29,26 +29,28 @@ Here is a mock up of the Hello(NotSo)Fresh application:
 
 [PLACEHOLDER]
 
-Initial idea:
-
-<img src="assets/brainstorm.jpeg" alt="drawing" width="250"/>
-
 ## Technical setup
 
 ### Supermarket sensors
 
-A set of sensors have been installed in order to track the stock, and to detect when the products remain too long on the shelf.
+A set of sensors have been installed in order to track the stock, and to detect when the products remain too long on the shelf. As a proof of concept, to simulate a shelf in a grocery store, a few products have been placed in wooden boxes.
+
+In the absence of reliable weight sensors, and since this project has been fully implemented at home, **two alternative sensors have been used to detect if the products remain in the shelves**. 
+
+The stock of one of the wooden boxes is tracked by means of an **ultrasonic distance sensor**, as shown below. When the box is full, the sensor will detect the objects in front of it, in this case the potatoes:
 
 ![](assets/supermarket-ping-sensor.jpg)
 
+The stock of the wooden tray is tracked using a **luminance sensor**. When the tray is full, the luminosity measured by the sensor changes:
+
 ![](assets/supermarket-lux-sensor.jpg)
 
-In the absence of reliable weight sensors, and since this project has been implemented fully at home, **two alternative sensors have been used to detect if the products remain in the shelves**. This way is possible to track:
+Mainly, two variables are being tracked for each product:
 
 * The **"stock"** of the products: i.e. if the products in particular are still on stock
 * The **"shelf time"**: this is, the time that the products have been on the shelves; the longer they remain unpurchased, the closer they will get to their _best before_ date; for the demo, the "shelf time" has been tracked in seconds, as a quick proof of concept.
 
-The measurements are sent to the [Adafruit IO](https://io.adafruit.com) platform (free of charge) using a ESP32 development board, shown below.
+This measurements are sent to the [Adafruit IO](https://io.adafruit.com) platform (free of charge) using a ESP32 development board, shown below.
 
 ![](assets/esp32-core-board-v2.jpg)
 
@@ -66,6 +68,12 @@ The measurements are sent to the [Adafruit IO](https://io.adafruit.com) platform
 #### Setup
 
 First of all, create a free account in [Adafruit IO](https://io.adafruit.com).
+
+Then, install and configure the [Arduino IDE](https://www.arduino.cc/en/main/software), and add the [support for ESP-32 boards](https://randomnerdtutorials.com/installing-the-esp32-board-in-arduino-ide-windows-instructions/).
+
+Proceed to open the `supermarket-sensors` Arduino project that can be found in the [`hardware`](/hardware) folder of this repository. Before flashing the program on the ESP-32 development kit, remember to configure it with the Adafruit IO credentials, as well as with the desired SSID and password for the WiFi connectivity.
+
+**-- WORK IN PROGRESS --**
 
 ## Shiny application
 
