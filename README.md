@@ -23,7 +23,11 @@ Here is a screenshot of the _Hello(NotSo)Fresh_ application:
 
 ## Live demo
 
-[PLACEHOLDER]
+**The video pitch is available in YouTube.** Just click on the picture below.
+
+[![HelloNotSoFresh](https://img.youtube.com/vi/ENnwqrJ5vZM/0.jpg)](https://www.youtube.com/watch?v=ENnwqrJ5vZM)
+
+The slides can be found [here](assets/HelloNotSoFresh - by TexasTopf.pdf)
 
 ## Solution architecture
 
