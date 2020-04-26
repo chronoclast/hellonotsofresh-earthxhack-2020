@@ -1,6 +1,6 @@
 # Hello(NotSo)Fresh
 
-### By Team _"to be revealed soon"_
+### By Team _"TexasTopf"_
 
 _A project by Emelie Hofland and Jaime González-Arintero for the [EarthxHack](https://earthxhack.weareasterisk.com) online event, on April 24-26, 2020._
 
@@ -32,14 +32,28 @@ Initial idea:
 
 ### Supermarket sensors
 
-A set of sensors have been installed in order to track the stock, and to detect when the products remain too long on the shelf. The measurements are sent to the Adafruit IO platform using a ESP32 development board, shown below.
+A set of sensors have been installed in order to track the stock, and to detect when the products remain too long on the shelf.
 
-<!--![](https://dl.espressif.com/dl/schematics/pictures/esp32-core-board-v2.png)-->
+![](assets/supermarket-ping-sensor.jpg)
+
+![](assets/supermarket-lux-sensor.jpg)
+
+In the absence of reliable weight sensors, and since this project has been implemented fully at home, **two alternative sensors have been used to detect if the products remain in the shelves**. This way is possible to track:
+
+* The **"stock"** of the products: i.e. if the products in particular are still on stock
+* The **"shelf time"**: this is, the time that the products have been on the shelves; the longer they remain unpurchased, the closer they will get to their _best before_ date; for the demo, the "shelf time" has been tracked in seconds, as a quick proof of concept.
+
+The measurements are sent to the [Adafruit IO](https://io.adafruit.com) platform (free of charge) using a ESP32 development board, shown below.
+
+![](assets/esp32-core-board-v2.jpg)
 
 #### Requirements
 
-* ESP-32 development kit (or similar)
-* Sensorzzzz
+* [ESP-32](https://en.wikipedia.org/wiki/ESP32) development kit (or similar)
+* [Ultrasonic distance sensor](https://www.parallax.com/product/28015)
+* [Luminance sensor](https://www.seeedstudio.com/Grove-Luminance-Sensor.html)
+* Prototyping breadboard
+* Connecting wires and USB cable
 * [Arduino IDE](https://www.arduino.cc/en/main/software)
 * [Adafruit IO Arduino library](https://learn.adafruit.com/welcome-to-adafruit-io/libraries)
 * [ESP32 board support for Arduino] (https://randomnerdtutorials.com/installing-the-esp32-board-in-arduino-ide-windows-instructions/)
