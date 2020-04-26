@@ -1,22 +1,33 @@
 # server
 
-server <- function(input, output) {
+server <- function(input, output, session) {
   # ========================= #
   # Refresh products table ####
   # ========================= #
-  productsUpdate <- reactive({ #iolink reactive ####
-    invalidateLater(15000)
+  productsUpdate <- reactive({ 
+    invalidateLater(5000, session = session)
     message("Getting sensor data...")
     
-    # Add shelftime from sensor data
-    if (demo_mode_adafruit) {
-      sensor_1 <- sample(seq(0.49, 3.49, by=0.1), sum(products$sensor_connected))
-      # Products is currently a global variable that gets updated in the product of the day output
-      products$shelftime[products$sensor_connected] <- products$shelftime[products$sensor_connected]+sensor_1
-    } else{
-      #sensor_1 <- fromJSON(Sys.getenv("ADAFRUIT_URL")$latest_value
-    }
+    # Simulate removal by randomly multiplying the current value with zero from time to time
+    removal_simulation <- sample(c(rep(1,20),0),3, replace = TRUE)
     
+    # Reset to current time if we get a zero - COMMENTED OUT THE APPLE SINCE WE NEED IT FOR THE LIVE DEMO
+    #start_apples <<- ifelse(removal_simulation[1] == 0, Sys.time(), start_apples)
+    start_tomatoes <<- ifelse(removal_simulation[2] == 0, Sys.time(), start_tomatoes)
+    start_potatoes <<- ifelse(removal_simulation[3] == 0, Sys.time(), start_potatoes)
+    
+    if (demo_mode_adafruit) {
+      # Add shelftime from demo data
+      products$shelftime[products$product == "apples"] <-  round(as.numeric(Sys.time())-start_apples, 0)
+      products$shelftime[products$product == "tomatoes"] <- round(as.numeric(Sys.time())-start_tomatoes, 0)
+      products$shelftime[products$product == "potatoes"] <- round(as.numeric(Sys.time())-start_potatoes, 0)
+      
+    } else {
+      # Add shelftime from sensor data
+      products$shelftime[products$product == "apples"] <-  round(as.numeric(Sys.time())-start_apples, 0)
+      products$shelftime[products$product == "tomatoes"] <- as.numeric(fromJSON(paste0(Sys.getenv("ADAFRUIT_URL"),"time-right"))$last_value)
+      products$shelftime[products$product == "potatoes"] <- as.numeric(fromJSON(paste0(Sys.getenv("ADAFRUIT_URL"),"time-middle"))$last_value)
+    }
     return(products)
   })
   
@@ -45,20 +56,24 @@ server <- function(input, output) {
   # ============================================================= #
   output$product_of_the_day <- renderUI({
     # Still need to find a better way to keep products table up to date without global or reactive values
-    products <<- productsUpdate()
-    values$products <- products
+    products <- productsUpdate()
     
     # Extract the product that has been on the shelf the longest
     product_of_the_day <- products$product[order(products$shelftime, decreasing = TRUE)][1]
     print(product_of_the_day)
     print(products$shelftime[order(products$shelftime, decreasing = TRUE)][1])
     
-    if (values$product_of_the_day != product_of_the_day) {
+    # Update the products table for the data table
+    values$products <- products
+    
+    if (previous_product_of_the_day != product_of_the_day) {
       message('The product of the day has changed')
-      previous_product_of_the_day <- values$product_of_the_day
       
       # Check the type, so we don't end up with potatoes & sweet potatoes or chicken and pork
       product_of_the_day_type <- products$type[products$product == product_of_the_day]
+      
+      # No problem combining vegetables with vegetables though - otherwise we will get only weird tomato beer recipes..
+      product_of_the_day_type <- ifelse(product_of_the_day_type == "vegetable", "", product_of_the_day_type)
       
       # Pick 2 extra ingredients that are not sensor tracked and are not of the same type
       recipeIngredients <- gsub(' ','+',paste(c(product_of_the_day,
@@ -71,7 +86,7 @@ server <- function(input, output) {
         n <- sample(c(1:nrow(response_df)), size = 1)
         response_df_sub <- response_df[n,]
       } else {
-        # API call
+        # Spoonacular API call
         url <- paste0("https://api.spoonacular.com/recipes/findByIngredients",
                       "?ingredients=",recipeIngredients,
                       "&number=20", # number of recipes returned
@@ -80,10 +95,14 @@ server <- function(input, output) {
                       "&apiKey=", Sys.getenv("API_KEY"))
         response <- GET(url, accept_json())
         
-        message(paste0("This query costed you ",response$headers$`x-api-quota-request`," credits"))
-        message(paste0("Credits used today: ",response$headers$`x-api-quota-used`," (out of 150)"))
+        message("Query details:")
+        print(paste0("You looked for: ", recipeIngredients))
+        print(paste0("This query costed you ",response$headers$`x-api-quota-request`," credits"))
+        print(paste0("Credits used today: ",response$headers$`x-api-quota-used`," (out of 150)"))
         
         response_df <- fromJSON(content(response, "text"))
+        # Saving results with randomized name, so we can append these files later for the demo app :)
+        saveRDS(response_df, paste0(gsub(":","-",Sys.time()),"_response_df.rds"))
         
         response_df_sub <-  response_df %>%
           rowwise() %>%
@@ -93,7 +112,9 @@ server <- function(input, output) {
           filter(grepl(product_of_the_day, ingredients) & !grepl(previous_product_of_the_day, ingredients)) 
         
         response_df_sub <- as.data.frame(response_df_sub) %>%
-          filter(usedIngredientCount == max(usedIngredientCount)) %>%
+          # I know this is a bit weird, but I don't want the max usedIngredients to be some weird recipe with
+          # zero likes, nor to filter out all the recipes if the usedIngredients are generally low...
+          filter(!usedIngredientCount < mean(usedIngredientCount)) %>%
           arrange(desc(likes))
       }
       
@@ -105,8 +126,6 @@ server <- function(input, output) {
       showNotification(warning,
                        type = sample(c("warning","error","default","message"), 1),
                        closeButton = FALSE)
-      # Adding a bit of delay...
-      Sys.sleep(2)
       
       # And arrange the layout also a bit more random, why not
       values$recipeImageSkew = sample(-15:-1, 1)
@@ -114,11 +133,14 @@ server <- function(input, output) {
       values$recipeImageMargin = sample(70:100, 1)
       
       # Reassign other values
-      values$product_of_the_day <- product_of_the_day
       values$recipeIngredients <- recipeIngredients
       values$recipe <- response_df_sub[1,]
+      
+      # Test - remove if doesn't work
+      previous_product_of_the_day <<- product_of_the_day
     }
     
+    # Generate the actual output
     HTML(paste0('<div style="transform: rotate(8deg); background-color:#ffc107; ',
                 'width:420px; font-size:36px; padding:8px; text-align:center;margin-top:-4em;',
                 'margin-bottom:24px;">',
@@ -148,26 +170,64 @@ server <- function(input, output) {
   # Show the ingredients & prices ####
   # ================================ #
   output$ingredients_list <- renderUI({
+    
+    # Before keeping only five, prioritize ingredients we want to show
+    if (values$recipe$usedIngredientCount > 0) {
+      usedIngredients <- values$recipe$usedIngredients[[1]][c("name", "image")] 
+      usedIngredients$prio <- 2
+    } else {
+      usedIngredients <- NULL
+    }
+    
+    # Also for the missedIngredients
+    if (values$recipe$missedIngredientCount > 0) {
+      missingIngredients <- values$recipe$missedIngredients[[1]][c("name", "image")]
+      
+      # Check if specific ingredients are mentioned in the name, just to make the list a bit more sensible
+      name_check <- unlist(strsplit(values$recipe$title, " "))
+      for (n in name_check) {
+        missingIngredients$prio[missingIngredients$name == tolower(n)] <- sum(grepl(tolower(n), tolower(values$recipe$missedIngredients[[1]]$name)))
+      }
+    } else {
+      missingIngredients <- NULL
+    }
+    
     # Keep 5 ingredients to list (if we have more than 5)
-    ingredients <- rbind(values$recipe$usedIngredients[[1]][c("name", "image")],
-                         values$recipe$missedIngredients[[1]][c("name", "image")])
+    ingredients <- rbind(usedIngredients,missingIngredients)
     if (nrow(ingredients) > 5) { 
-      ingredients <- ingredients[1:5,]
+      ingredients <- ingredients[order(ingredients$prio, decreasing = T),][1:5,]
     }
     
     # For the practice, let's add a fake price
     ingredients$price <- sample(seq(0.49, 5.49, by=0.1), size = nrow(ingredients))
+    
+    # If we have the ingredients in our databse, we take our price and discount - actual prices from our local supermarket
+    prices_df <- products[,c("product","price","discount","unit")]
+    names(prices_df) <- c("name","price_original","discount","unit")
+    ingredients <- merge(ingredients, prices_df, by="name", all.x=T)
+    # Calculate discounted price, if relevant
+    ingredients$price <- format(round(ifelse(!is.na(ingredients$price_original), 
+                                ingredients$price_original*(1-ingredients$discount),
+                                ingredients$price),2), nsmall = 2)
+    ingredients$discount <- ifelse(ingredients$discount==0, NA, ingredients$discount)
+    # Display discounted price highlighted
+    ingredients$price <- ifelse(!is.na(ingredients$discount),
+                                paste0("<del>€",ingredients$price_original,
+                                       "</del> <b style='color:red;font-size:120%'>€",
+                                       ingredients$price,"</b>"),
+                                paste0("€",ingredients$price))
+    
     # Make a representable block in html with the images and the ingredient names
     ingredients_html <- paste(paste0('<div style="display: inline-block; margin-right:65px: margin-top:10px">',
                                      '<img style="margin-top:10px" src="',ingredients$image,
                                      '" height=60px/><b style="margin-left:20px">',tools::toTitleCase(ingredients$name),
-                                     ' - Now for €',ingredients$price,'!</b>
+                                     ' - Now for ',ingredients$price,'!</b>
                                        </div>'), collapse="")
     # The html for the ingredients list
     HTML(paste0('<div class = "paper" style="font-size: 100%; 
                                              color:#636363; 
                                              transform: rotate(',values$recipeIngredientsSkew,'deg); 
-                                             margin-top:16px;">
+                                             margin-top:10px;">
                  <p>Why not enjoy some delicious ',tools::toTitleCase(values$recipe$title),
                   ' tonight? Here is what you\'ll need to prepare this dish:</p>',
                   ingredients_html,

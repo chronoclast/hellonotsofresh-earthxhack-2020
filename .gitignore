@@ -125,4 +125,4 @@ config.yaml
 dev/
 dummy-app/rsconnect/
 .vscode/
-
+app/rsconnect/
